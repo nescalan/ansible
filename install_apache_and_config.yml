@@ -1,0 +1,66 @@
+---
+# ============================================================
+# PLAYBOOK: INSTALACIÓN Y CONFIGURACIÓN DE APACHE
+# ============================================================
+# Autor: Nelson González
+# Fecha: 2026-03-06
+# Descripción: Este playbook instala el servidor apache,
+#              inicia apache y copia un nuevo sitio al servidor
+#
+# Descripción:
+#   - Instala el servidor web Apache
+#   - Inicia el servicio de apache2
+#   - Copia un archivo HTML al nuevo sitio
+#
+# Compatibilidad: Sistemas basados en Debian/Ubuntu (usa apt)
+# ============================================================
+
+- hosts: all
+  become:true
+  tasks: 
+
+    # --------------------------------------------------------
+    # TAREA 1: Instalar Servidor Web Apache
+    # --------------------------------------------------------
+    # Módulo: ansible.builtin.apt
+    #   Gestiona paquetes en sistemas Debian/Ubuntu
+    #
+    # Parámetros:
+    #   - name : 
+    #   - state: 
+    #
+    # Comando equivalente en Linux:
+    #   sudo apt-get apt install apache
+    # --------------------------------------------------------
+   - name: Install Apache web server
+     ansible.builtin.apt:
+       name: apache2
+
+    # --------------------------------------------------------
+    # TAREA 2: Iniciar el servicio de apache2
+    # --------------------------------------------------------
+    # Módulo: ansible.builtin.service
+    #   Gestiona servicios del sistema operativo en nodos remotos
+    #
+    # Comando equivalente en Linux:
+    #   sudo systemctl start apache2
+    # --------------------------------------------------------
+   - name: Install Apache web server
+     ansible.builtin.service:
+       name: apache2
+       state: started
+
+       
+    # --------------------------------------------------------
+    # TAREA 3: Copia el archivo index.html
+    # --------------------------------------------------------
+    # Módulo: ansible.builtin.copy
+    #   Módulo utilizado para copiar archivos o directorios
+    #
+    # Comando equivalente en Linux:
+    #   scp /ruta/local/del/archivo usuario@host_remoto:/ruta/destino/
+    # --------------------------------------------------------      
+   - name: Copy index.html
+     ansible.builtin.copy:
+       src: index.html
+       dest: /var/www/html/index.html
