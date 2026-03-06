@@ -1,0 +1,68 @@
+---
+# ============================================================
+# PLAYBOOK: ELIMINACIÓN DE HERRAMIENTAS COMUNES
+# ============================================================
+# Autor: Nelson González
+# Fecha: 2026-03-06
+# Descripción: Este playbook elimina herramientas de desarrollo
+#              y utilidades comunes de todos los servidores.
+#
+# Paquetes a eliminar:
+#   - git: sistema de control de versiones
+#   - htop: monitor interactivo de procesos
+#   - vim-nox: editor de texto Vim con soporte para scripts
+#
+# Compatibilidad: Sistemas basados en Debian/Ubuntu (usa apt)
+# ============================================================
+
+- hosts: all
+  become: true
+
+  tasks:
+    # --------------------------------------------------------
+    # TAREA 1: Eliminar paquetes específicos
+    # --------------------------------------------------------
+    # Módulo: ansible.builtin.apt
+    #   Gestiona paquetes en sistemas Debian/Ubuntu
+    #
+    # Parámetros:
+    #   - name : Lista de paquetes a gestionar
+    #   - state: absent = asegura que NO estén instalados
+    #
+    # Comando equivalente en Linux:
+    #   sudo apt-get remove git htop vim-nox -y
+    # --------------------------------------------------------
+    - name: Eliminar paquetes htop, git y vim-nox
+      ansible.builtin.apt:
+        name:
+          - git
+          - htop
+          - vim-nox
+        state: absent
+
+    # --------------------------------------------------------
+    # TAREA 2: Mensaje informativo (opcional)
+    # --------------------------------------------------------
+    # Esta tarea solo muestra información en pantalla,
+    # no realiza cambios en los servidores.
+    #
+    # El módulo 'debug' es excelente para:
+    #   - Verificar valores de variables
+    #   - Mostrar mensajes durante la ejecución
+    #   - Depurar playbooks
+    # --------------------------------------------------------
+    - name: Mostrar confirmación de eliminación
+      ansible.builtin.debug:
+        msg: |
+          =====================================
+          OPERACIÓN COMPLETADA
+          =====================================
+          Los siguientes paquetes han sido
+          eliminados de los servidores:
+          - git
+          - htop
+          - vim-nox
+          
+          Para verificar manualmente:
+          ssh server-one dpkg -l | grep -E "git|htop|vim-nox"
+          =====================================

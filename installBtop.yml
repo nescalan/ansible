@@ -1,0 +1,6 @@
+- hosts: server-one
+  become: true
+  tasks:
+    - name: Install btop
+      ansible.builtin.apt: 
+        name: btop

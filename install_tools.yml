@@ -1,0 +1,11 @@
+# Install several tools: htop, git and vim-nox
+
+- hosts: all
+  become: true
+  tasks:
+  - name: Install packages htop, git and vim-nox
+    ansible.builtin.apt:
+      name:
+        - git
+        - htop
+        - vim-nox
